@@ -3,6 +3,7 @@ import 'package:demo_home_test/modules/call_list/screens/widget/call_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../base/base.dart';
+import '../../../widgets/error_widget.dart';
 import '../bloc/call_list_bloc.dart';
 
 class CallPage extends StatelessWidget {
@@ -38,7 +39,7 @@ class CallPage extends StatelessWidget {
             }
 
             if (state is ErrorState) {
-              return ErrorWidget(state.message);
+              return MyErrorWidget(error :state.message);
             }
 
             return const SizedBox();

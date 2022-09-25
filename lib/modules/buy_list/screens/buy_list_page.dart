@@ -2,6 +2,7 @@ import 'package:demo_home_test/modules/buy_list/bloc/buy_list_bloc.dart';
 import 'package:demo_home_test/modules/buy_list/repositories/buy_list_repository.dart';
 
 import '../../../base/base.dart';
+import '../../../widgets/error_widget.dart';
 import '../../../widgets/product_item.dart';
 
 class BuyPage extends StatelessWidget {
@@ -38,7 +39,7 @@ class BuyPage extends StatelessWidget {
             }
 
             if (state is BuyStateError) {
-              return ErrorWidget(state.message);
+              return MyErrorWidget(error :state.message);
             }
 
             return const SizedBox();

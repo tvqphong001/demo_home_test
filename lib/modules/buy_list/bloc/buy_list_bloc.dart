@@ -14,9 +14,15 @@ class BuyListBloc extends Bloc<BuyListEvent, BuyListState> {
 
   _getBuyList(BuyListEvent event, Emitter<BuyListState> emit)async{
     try{
-      final data = await repository.getBuyList();
+      final resp = await repository.getBuyList();
 
-      emit(BuyStateLoaded(data));
+      if(resp.isSuccess){
+        emit(BuyStateLoaded(resp.requiredData));
+      }else{
+        print(resp.exception.toString());
+        emit(const BuyStateError(message: 'Call api fail'));
+
+      }
     }catch(e){
       emit(BuyStateError(message: e.toString()));
     }

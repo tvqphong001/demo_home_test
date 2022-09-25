@@ -1,5 +1,6 @@
 
 import '../../../base/base.dart';
+import '../../../widgets/error_widget.dart';
 import '../../../widgets/product_item.dart';
 import '../bloc/sell_list_bloc.dart';
 import '../repositories/sell_list_repository.dart';
@@ -38,7 +39,7 @@ class SellPage extends StatelessWidget {
             }
 
             if (state is SellStateError) {
-              return ErrorWidget(state.message);
+              return MyErrorWidget(error :state.message);
             }
 
             return const SizedBox();

@@ -3,12 +3,12 @@ import 'package:dio/dio.dart';
 import '../../base/base_service.dart';
 import '../../constants/api_path.dart';
 
-class RestApiService extends BaseHttpService{
+class RestApiService extends BaseHttpService {
   final Dio dio;
 
   const RestApiService(this.dio);
 
-  static Future<RestApiService> init() async{
+  static Future<RestApiService> init() async {
     var dio = Dio();
     dio.options = BaseOptions(baseUrl: basePath);
     var restApiService = RestApiService(dio);
@@ -16,13 +16,24 @@ class RestApiService extends BaseHttpService{
   }
 
   @override
-  Future<Response> post({required String path})async{
-    return await dio.post(path);
+  Future<ResponseData> post({required String path}) async {
+    try {
+      final resp = await dio.post(path);
+
+      return ResponseData(response: resp);
+    } catch (e) {
+      return ResponseData(exception: Exception(e.toString()));
+    }
   }
 
   @override
-  Future<Response> get({required String path})async{
-    return await dio.get(path);
+  Future<ResponseData> get({required String path}) async {
+    try {
+      final resp = await dio.get(path);
+
+      return ResponseData(response: resp);
+    } catch (e) {
+      return ResponseData(exception: Exception(e.toString()));
+    }
   }
 }
-

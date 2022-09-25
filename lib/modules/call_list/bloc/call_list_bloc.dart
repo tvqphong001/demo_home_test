@@ -15,8 +15,13 @@ class CallListBloc extends Bloc<CallListEvent,CallListState>{
 
   _getCallList(GetCallListEvent event, Emitter<CallListState> emit) async{
     try{
-      final list = await repository.getCallList();
-      emit(CallListState.loaded(list));
+      final resp = await repository.getCallList();
+      if(resp.isSuccess){
+        emit(CallListState.loaded(resp.requiredData));
+      }else{
+        print(resp.exception.toString());
+        emit(const ErrorState(message: 'Call api fail'));
+      }
     }catch(e){
       emit(ErrorState(message: e.toString()));
     }

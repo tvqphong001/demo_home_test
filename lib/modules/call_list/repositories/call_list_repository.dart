@@ -13,9 +13,13 @@ class CallListRepository{
     service = getIt<RestApiService>();
   }
 
-  Future<List<CallModel>> getCallList()async{
+  Future<ResponseData<List<CallModel>>> getCallList()async{
     final resp = await service.get(path: callListPath);
-    var data = resp.data as List;
-    return data.map((e) => CallModel.fromJson(e)).toList();
+    if(resp.isSuccess){
+      var data = (resp.response?.data??[]) as List;
+      return ResponseData(data: data.map((e) => CallModel.fromJson(e)).toList(),response: resp.response);
+    }
+
+    return ResponseData(exception: resp.exception);
   }
 }
