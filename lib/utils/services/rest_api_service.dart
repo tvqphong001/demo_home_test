@@ -16,24 +16,16 @@ class RestApiService extends BaseHttpService {
   }
 
   @override
-  Future<ResponseData> post({required String path}) async {
-    try {
+  Future<Response> post({required String path}) async {
       final resp = await dio.post(path);
 
-      return ResponseData(response: resp);
-    } catch (e) {
-      return ResponseData(exception: Exception(e.toString()));
-    }
+      return resp;
   }
 
   @override
-  Future<ResponseData> get({required String path}) async {
-    try {
-      final resp = await dio.get(path);
+  Future<Response> get({required String path}) async {
+    final resp = await dio.get(path);
 
-      return ResponseData(response: resp);
-    } catch (e) {
-      return ResponseData(exception: Exception(e.toString()));
-    }
+    return resp;
   }
 }

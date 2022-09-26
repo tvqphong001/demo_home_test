@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+
 import '../../../base/base.dart';
 import '../models/call_model.dart';
 import '../repositories/call_list_repository.dart';
@@ -15,15 +19,19 @@ class CallListBloc extends Bloc<CallListEvent,CallListState>{
 
   _getCallList(GetCallListEvent event, Emitter<CallListState> emit) async{
     try{
-      final resp = await repository.getCallList();
-      if(resp.isSuccess){
-        emit(CallListState.loaded(resp.requiredData));
-      }else{
-        print(resp.exception.toString());
-        emit(const ErrorState(message: 'Call api fail'));
-      }
+      final data = await repository.getCallList();
+      emit(CallListState.loaded(data));
     }catch(e){
-      emit(ErrorState(message: e.toString()));
+      print(e);
+      var message = 'Get Call List fail!';
+      if(e is DioError){
+        var error = e.error;
+        if(error is SocketException){
+          message = 'Connection Error';
+        }
+      }
+
+      emit(ErrorState(message: message));
     }
   }
 }

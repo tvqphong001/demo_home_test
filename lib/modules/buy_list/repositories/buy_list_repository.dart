@@ -12,13 +12,10 @@ class BuyListRepository{
     service = getIt<RestApiService>();
   }
 
-  Future<ResponseData<List<Product>>> getBuyList()async{
+  Future<List<Product>> getBuyList()async{
     final resp = await service.get(path: buyListPath);
-    if(resp.isSuccess){
-      var data = (resp.response?.data??[]) as List;
-      return ResponseData(data: data.map((e) => Product.fromJson(e)).toList(),response: resp.response);
-    }
+    var data = (resp.data??[]) as List;
 
-    return ResponseData(exception: resp.exception);
+    return data.map((e) => Product.fromJson(e)).toList();
   }
 }

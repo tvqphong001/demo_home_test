@@ -12,19 +12,23 @@ class BuyListBloc extends Bloc<BuyListEvent, BuyListState> {
     on<GetBuyListEvent>(_getBuyList);
   }
 
-  _getBuyList(BuyListEvent event, Emitter<BuyListState> emit)async{
+  _getBuyList(GetBuyListEvent event, Emitter<BuyListState> emit)async{
     try{
-      final resp = await repository.getBuyList();
+      final data = await repository.getBuyList();
 
-      if(resp.isSuccess){
-        emit(BuyStateLoaded(resp.requiredData));
-      }else{
-        print(resp.exception.toString());
-        emit(const BuyStateError(message: 'Call api fail'));
+      emit(BuyStateLoaded(data));
 
-      }
     }catch(e){
-      emit(BuyStateError(message: e.toString()));
+      print(e);
+      var message = 'Get Buy List fail!';
+      if(e is DioError){
+        var error = e.error;
+        if(error is SocketException){
+          message = 'Connection Error';
+        }
+      }
+
+      emit(BuyStateError(message: message));
     }
   }
 }

@@ -15,7 +15,8 @@ class SellListBloc extends Bloc<SellListEvent, SellListState> {
         final data = await repository.getSellList();
         emit(SellStateLoaded(data));
       }catch(e){
-        emit(SellStateError(message: e.toString()));
+        print(e);
+        emit(const SellStateError(message: 'Get Sell List fail'));
       }
     });
   }
