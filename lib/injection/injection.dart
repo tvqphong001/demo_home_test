@@ -25,5 +25,5 @@ Future configDependency() async {
     dependsOn: [RestApiService, LocalStorageService],
   );
 
-  return getIt.allReady();
+  return await getIt.allReady();
 }
